@@ -204,8 +204,7 @@ body a:hover {
     line-height: normal;
     text-transform: uppercase;
     font-weight: 600;
-    background: -webkit-linear-gradient(left,#c19c34 12%,#bfa44c 25%,#d7c34e 45%,#c19c34 58%,#bfa44c 80%,#d7c34e 100%);
-    background: linear-gradient(left,#c19c34 12%,#bfa44c 25%,#d7c34e 45%,#c19c34 58%,#bfa44c 80%,#d7c34e 100%);
+    background: #ba9d4d;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -219,8 +218,7 @@ body a:hover {
     line-height: normal;
     text-transform: uppercase;
     font-weight: 600;
-    background: -webkit-linear-gradient(left,#c19c34 12%,#bfa44c 25%,#d7c34e 45%,#c19c34 58%,#bfa44c 80%,#d7c34e 100%);
-    background: linear-gradient(left,#c19c34 12%,#bfa44c 25%,#d7c34e 45%,#c19c34 58%,#bfa44c 80%,#d7c34e 100%);
+    background:#ba9d4d ;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1020,6 +1018,10 @@ footer ul li a{
     gap: 5px;
     justify-content: center;
 }
+.slick-slide div {
+    outline: none;
+}
+
 /* .slider-container{
     position: relative;
 }

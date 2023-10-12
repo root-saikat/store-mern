@@ -148,6 +148,7 @@ const Navbar = () => {
                                                     <i className="fa-solid fa-cart-shopping"></i>
                                                     <span className="text-white" id="cart-s-d" style={{ cursor: 'pointer' }}>0 ITEM BDT O</span>
                                                 </div>
+                                                {/* cart popup start */}
                                                 <div className="cart-popup flex-column gap-1 bg-white" id="cart-popup">
                                                     <div className="row">
                                                         <div className="col text-white bg-primary-color text-center p-3">
@@ -158,7 +159,7 @@ const Navbar = () => {
                                                     <div className="row">
                                                         <div className="col bg-dark d-flex gap-2 p-3">
                                                             <div className="cart-item-img" style={{ width: '50px', height: '50px' }}>
-                                                                <img src="./Linkssets/products/strawberry_mango.jpg" alt="" width="100%" height="100%" />
+                                                                <img src="../assets/products/strawberry_mango.jpg" alt="" width="100%" height="100%" />
                                                             </div>
                                                             <div className="desc">
                                                                 <h6>Item Name</h6>

@@ -10,6 +10,10 @@ import Login from './components/Login';
 import Service from './components/Service';
 import Cart from './components/Cart';
 import Footer from './components/Footer';
+import ProductPage from './components/ProductPage';
+import BrandsPage from './components/BrandsPage';
+import ScrollToTop from './components/ScrollToTop ';
+import SingleProduct from './components/SingleProduct';
 
 function App() {
 
@@ -26,6 +30,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop/>
       <Navbar />
       <Alert alert={alert} />
       <Routes>
@@ -34,6 +39,9 @@ function App() {
         <Route exact path="/vapeguide" element={<Vapeguide />} />
         <Route exact path="/service" element={<Service/>} />
         <Route exact path="/cart" element={<Cart/>} />
+        <Route exact path="/products" element={<ProductPage/>} />
+        <Route exact path="/brands" element={<BrandsPage/>} />
+        <Route exact path="/singleproduct" element={<SingleProduct/>} />
         <Route exact path="/login" element={<Login showAlert={showAlert}/>} />
       </Routes>
       <Footer/>
