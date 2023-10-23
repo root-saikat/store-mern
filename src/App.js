@@ -14,6 +14,9 @@ import ProductPage from './components/ProductPage';
 import BrandsPage from './components/BrandsPage';
 import ScrollToTop from './components/ScrollToTop ';
 import SingleProduct from './components/SingleProduct';
+import ForgetPassword from './components/ForgetPassword';
+import Dashboard from './components/Dashboard';
+import PrivateRoute from './components/routes/private';
 
 function App() {
 
@@ -29,23 +32,27 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <ScrollToTop/>
-      <Navbar />
-      <Alert alert={alert} />
-      <Routes>
-        <Route exact path="/" element={<Home showAlert={showAlert}/>} />
-        <Route exact path="/register" element={<Register showAlert={showAlert}/>} />
-        <Route exact path="/vapeguide" element={<Vapeguide />} />
-        <Route exact path="/service" element={<Service/>} />
-        <Route exact path="/cart" element={<Cart/>} />
-        <Route exact path="/products" element={<ProductPage/>} />
-        <Route exact path="/brands" element={<BrandsPage/>} />
-        <Route exact path="/singleproduct" element={<SingleProduct/>} />
-        <Route exact path="/login" element={<Login showAlert={showAlert}/>} />
-      </Routes>
-      <Footer/>
-    </BrowserRouter>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Navbar />
+        <Alert alert={alert} />
+        <Routes>
+          <Route exact path="/" element={<Home showAlert={showAlert} />} />
+          <Route exact path="/register" element={<Register showAlert={showAlert} />} />
+          <Route exact path="/vapeguide" element={<Vapeguide />} />
+          <Route exact path='/dashboard' element={<PrivateRoute />} >
+            <Route exact path="" element={<Dashboard />} />
+          </Route>
+          <Route exact path="/service" element={<Service />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/products" element={<ProductPage />} />
+          <Route exact path="/brands" element={<BrandsPage />} />
+          <Route exact path="/singleproduct" element={<SingleProduct />} />
+          <Route exact path="/login" element={<Login showAlert={showAlert} />} />
+          <Route exact path="/reset-password" element={<ForgetPassword showAlert={showAlert} />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
   );
 }
 

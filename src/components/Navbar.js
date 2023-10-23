@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../assets/vs-new-logo.png';
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 
 
 const Navbar = () => {
 
     let navigate = useNavigate();
+
+    const authtoken = localStorage.getItem('token'); // Get the authentication token
+    const [userName, setUserName] = useState('');
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -13,6 +17,15 @@ const Navbar = () => {
     }
 
     useEffect(() => {
+
+        if (authtoken) {
+            try {
+                const decodedToken = jwt_decode(authtoken); // You may need to import jwt_decode
+                setUserName(decodedToken.user.name);
+            } catch (error) {
+                console.error("Error decoding token:", error);
+            }
+        }
 
         // mobile menu
         const mbOpen = document.getElementById('mb-open');
@@ -99,7 +112,8 @@ const Navbar = () => {
             }
         };
 
-    }, []); // Empty dependency array ensures this code runs after component mount
+    }, [authtoken]); // Empty dependency array ensures this code runs after component mount
+
 
 
     return (
@@ -141,7 +155,18 @@ const Navbar = () => {
                                                     <Link to="/register">
                                                         <span className="p-1">REGISTER</span>
                                                     </Link>
-                                                </div> : <button onClick={handleLogout} className="btn btn-warning btn-sm mx-1" >Logout</button>}
+                                                </div> : <>
+                                                    <li className="nav-item dropdown d-flex">
+                                                        <Link className="dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <span className="p-1 login-btn">{userName}</span>
+                                                        </Link>
+                                                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                            <li><Link className="dropdown-item text-dark text-center" to="/dashboard">DashBoard</Link></li>
+                                                            <li className='d-flex align-items-center justify-content-center mt-2'><button onClick={handleLogout} className="btn btn-warning btn-sm mx-1" >Logout</button></li>
+                                                        </ul>
+                                                    </li>
+                                                    
+                                                </>}
                                             </div>
                                             <div className="col d-flex align-items-center cart-sect">
                                                 <div className="cart d-flex align-items-center gap-2" id="cart">

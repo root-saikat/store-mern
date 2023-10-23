@@ -7,19 +7,20 @@ const Register = (props) => {
         email: '',
         password: '',
         cpassword: '',
+        question:'',
     });
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, email, password } = credentials;
+        const { name, email, password, question } = credentials;
         const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify({ name, email, password, question })
         });
         const json = await response.json()
         console.log(json);
@@ -51,6 +52,7 @@ const Register = (props) => {
                                 <input type="email" onChange={onChange} name="email" id="email" className="form-control my-4" placeholder="Your Email*" required />
                                 <input type="password" onChange={onChange} name="password" id="password" className="form-control my-4" placeholder="Create a password*" required minLength="5" />
                                 <input type="password" onChange={onChange} name="cpassword" id="cpassword" className="form-control my-4" placeholder="Confirm password*" required minLength="5" />
+                                <input type="text" onChange={onChange} name="question" id="question" className="form-control my-4" placeholder="Enter Your pet name*" required />
                             </div>
                             <h6>PLEASE NOTE:</h6>
                             <p>By creating an account with us, you are confirming that you are 18 years or over.</p>
@@ -64,15 +66,6 @@ const Register = (props) => {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="row"><div className="col text-center my-3"><span>OR</span></div></div>
-                            <div className="row">
-                                <div className="col">
-                                    <div className="row justify-content-between ">
-                                        <div className="col col-6"><button type="button" className="btn with-g" style={{ width: '100%' }}><a href=""><i className="fa-brands fa-google-plus-g"></i>Register</a></button></div>
-                                        <div className="col col-6"><button type="button" className="btn with-f" style={{ width: '100%' }}><a href=""><i className="fa-brands fa-facebook-f"></i>Register</a></button></div>
-                                    </div>
-                                </div>
-                            </div> */}
                         </form>
                     </div>
                 </div>
