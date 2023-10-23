@@ -22,11 +22,11 @@ const Loginmodal = (props) => {
         if (json.success) {
             // Save the auth token and redirect
             localStorage.setItem('token', json.authtoken);
-            props.showAlert("Login Successfully", "success")
+            props.setAlert("Login Successfully", "success")
             navigate("/");
         }
         else {
-            props.showAlert("Invalid Details", "danger")
+            props.setAlert("Invalid Details", "danger")
         }
     }
 

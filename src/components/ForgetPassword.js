@@ -20,11 +20,11 @@ const ForgetPassword = (props) => {
         console.log(json);
         if (json.success) {
             // Show alert and redirect
-            props.showAlert("Password reset Successfully", "success")
+            props.setAlert("Password reset Successfully", "success")
             navigate("/login");
         }
         else {
-            props.showAlert("Invalid Details", "danger")
+            props.setAlert("Invalid Details", "danger")
         }
     }
 

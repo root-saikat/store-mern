@@ -25,7 +25,7 @@ export default function PrivateRoute() {
             }
         };
 
-        authCheck();
+        if (token) authCheck();
     }, []);
 
     return ok ? <Outlet /> : <Loginmodal/>;

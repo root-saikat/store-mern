@@ -28,10 +28,10 @@ const Register = (props) => {
             // Save the auth token and redirect
             localStorage.setItem('token', json.authtoken);
             navigate("/");
-            props.showAlert("Account Created Successfully", "success");
+            props.setAlert("Account Created Successfully", "success");
         }
         else {
-            props.showAlert("Invalid Details", "danger");
+            props.setAlert("Invalid Details", "danger");
         }
     }
 
@@ -56,7 +56,7 @@ const Register = (props) => {
                             </div>
                             <h6>PLEASE NOTE:</h6>
                             <p>By creating an account with us, you are confirming that you are 18 years or over.</p>
-                            <p>Please <a href="">Click Here</a> for Full <a href="">Terms & Conditions</a>.</p>
+                            <p>Please <Link to="/">Click Here</Link> for Full <Link to="/">Terms & Conditions</Link>.</p>
                             <div className="captcha"></div>
                             <div className="row">
                                 <div className="col">
