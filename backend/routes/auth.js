@@ -91,7 +91,8 @@ router.post('/login', [
         const data = {
             user: {
                 id: user.id,
-                name: user.name
+                name: user.name,
+                role: user.role
             }
         }
         const authtoken = jwt.sign(data, process.env.JWT_SECRET);
@@ -178,9 +179,12 @@ router.get("/user-auth", (req, res) => {
     res.status(200).send({ ok: true });
 });
 
+
+
 //protected Admin route auth
-router.get("/admin-auth", fetchuser, isAdmin, (req, res) => {
+router.get("/admin-auth",isAdmin, (req, res) => {
     res.status(200).send({ ok: true });
 });
+
 
 export default router;

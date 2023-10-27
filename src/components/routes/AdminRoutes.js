@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import Spinner from "../Spinner";
 
 
-export default function PrivateRoute() {
+export default function AdminRoute() {
 
     const [ok, setOk] = useState(false);
 
@@ -12,7 +12,7 @@ export default function PrivateRoute() {
         const token = localStorage.getItem("token");
 
         const authCheck = async () => {
-            const res = await fetch("http://localhost:5000/api/auth/user-auth", {
+            const res = await fetch("http://localhost:5000/api/auth/admin-auth", {
                 headers: {
                     'auth-token': token
                 }
@@ -28,5 +28,5 @@ export default function PrivateRoute() {
         if (token) authCheck();
     }, []);
 
-    return ok ? <Outlet /> :  <Spinner/>;
+    return ok ? <Outlet /> : <Spinner path=""/>;
 }

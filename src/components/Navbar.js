@@ -10,6 +10,7 @@ const Navbar = () => {
 
     const authtoken = localStorage.getItem('token'); // Get the authentication token
     const [userName, setUserName] = useState('');
+    const [role, setRole] = useState('');
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -22,6 +23,7 @@ const Navbar = () => {
             try {
                 const decodedToken = jwt_decode(authtoken); // You may need to import jwt_decode
                 setUserName(decodedToken.user.name);
+                setRole(decodedToken.user.role);
             } catch (error) {
                 console.error("Error decoding token:", error);
             }
@@ -161,7 +163,7 @@ const Navbar = () => {
                                                         <span className="p-1 login-btn">{userName}</span>
                                                         </Link>
                                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                            <li><Link className="dropdown-item text-dark text-center" to="/dashboard">DashBoard</Link></li>
+                                                            <li><Link className="dropdown-item text-dark text-center" to={`/dashboard/${role === 1 ? 'admin' : 'user'}`}>DashBoard</Link></li>
                                                             <li className='d-flex align-items-center justify-content-center mt-2'><button onClick={handleLogout} className="btn btn-warning btn-sm mx-1" >Logout</button></li>
                                                         </ul>
                                                     </li>

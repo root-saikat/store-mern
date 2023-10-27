@@ -6,7 +6,6 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Vapeguide from './components/Vapeguide';
 import Alert from './components/Alert';
-// import Login from './components/Login';
 import Service from './components/Service';
 import Cart from './components/Cart';
 import Footer from './components/Footer';
@@ -18,6 +17,8 @@ import ForgetPassword from './components/ForgetPassword';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/routes/private';
 import Loginmodal from './components/Login';
+import AdminRoute from './components/routes/AdminRoutes';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
 
@@ -41,8 +42,11 @@ function App() {
         <Route exact path="/" element={<Home setAlert={showAlert} />} />
         <Route exact path="/register" element={<Register setAlert={showAlert} />} />
         <Route exact path="/vapeguide" element={<Vapeguide />} />
-        <Route exact path='/dashboard' element={<PrivateRoute />} >
-          <Route exact path="" element={<Dashboard />} />
+        <Route exact path='/dashboard' element={<PrivateRoute/>} >
+          <Route exact path="user" element={<Dashboard />} />
+        </Route>
+        <Route exact path='/dashboard' element={<AdminRoute/>} >
+          <Route exact path="admin" element={<AdminDashboard/>} />
         </Route>
         <Route exact path="/service" element={<Service />} />
         <Route exact path="/cart" element={<Cart />} />
