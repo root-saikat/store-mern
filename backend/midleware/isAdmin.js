@@ -20,7 +20,6 @@ const isAdmin = async (req, res, next) => {
           message: "Error in admin middelware",
         });
       }
-
 };
  
 

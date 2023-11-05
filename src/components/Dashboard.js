@@ -1,11 +1,32 @@
-import React from 'react'
+import React from 'react';
+import UserMenu from './dashboard pages/user/UserMenu';
+import { useAuth } from '../context/auth';
 
 const Dashboard = () => {
-  return (
-    <div>
-      <h1>Welcome to user dashboard</h1>
-    </div>
-  )
+
+    const [auth] = useAuth();
+
+    return (
+        <>
+            <div className="container my-5 ">
+                <div className="row">
+                    <div className="col-md-3">
+                        <UserMenu />
+                    </div>
+                    <div className="col-md-9 ps-5 pt-4">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="card">
+                                    <h3>Name: {auth?.user?.name}</h3>
+                                    <h3>Email: {auth?.user?.email}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default Dashboard

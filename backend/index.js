@@ -1,6 +1,7 @@
 import express from 'express';
 import connectToMongo from './db.js';
 import authRouter from './routes/auth.js'
+import categoryRoutes from './routes/categoryRoute.js'
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -23,6 +24,7 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 // Available routes
 app.use('/api/auth', authRouter); // Use the imported 'authRouter' here
+app.use('/api/category', categoryRoutes); 
 
 
 app.listen(port, () => {

@@ -17,7 +17,7 @@ export default function AdminRoute() {
                     'auth-token': token
                 }
             });
-            // console.log(res);
+
             if (res.ok) {
                 setOk(true);
             } else {

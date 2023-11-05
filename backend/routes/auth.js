@@ -92,7 +92,8 @@ router.post('/login', [
             user: {
                 id: user.id,
                 name: user.name,
-                role: user.role
+                role: user.role,
+                email: user.email
             }
         }
         const authtoken = jwt.sign(data, process.env.JWT_SECRET);
@@ -182,7 +183,7 @@ router.get("/user-auth", (req, res) => {
 
 
 //protected Admin route auth
-router.get("/admin-auth",isAdmin, (req, res) => {
+router.get("/admin-auth", fetchuser, isAdmin, (req, res) => {
     res.status(200).send({ ok: true });
 });
 
