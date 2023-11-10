@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import AdminMenu from './AdminMenu'
-import CategoryForm from './categoryForm'
+import BrandsForm from './BrandsForm';
 
-const CreateCategory = (props) => {
+const CreateBrandsPage = (props) => {
 
-    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
     const [name, setName] = useState("");
     const [updatedName, setUpdatedName] = useState("");
     const [selected, setSelected] = useState(null);
@@ -12,11 +12,11 @@ const CreateCategory = (props) => {
     const host = "http://localhost:5000";
     const token = localStorage.getItem("token");
 
-    // create new category form handle
+    // handle submit create brands
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${host}/api/category/create-category`, {
+            const response = await fetch(`${host}/api/brand/create-brand`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,8 +30,8 @@ const CreateCategory = (props) => {
             const data = await response.json();
 
             if (response.ok && data.success) {
-                getAllCategory();
-                props.setAlert(`${name} Category Created Successfully`, "success");
+                getAllBrands();
+                props.setAlert(`${name} Brand Created Successfully`, "success");
             } else {
                 // Handle error case if needed
                 console.log("API returned unsuccessful response:", data);
@@ -41,10 +41,10 @@ const CreateCategory = (props) => {
         }
     };
 
-    //fetch all category
-    const getAllCategory = async () => {
+    //fetch all Brands
+    const getAllBrands = async () => {
         try {
-            const response = await fetch(`${host}/api/category/get-category`, {
+            const response = await fetch(`${host}/api/brand/get-brand`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const CreateCategory = (props) => {
                     const responseBody = await response.json();
 
                     if (responseBody.success) {
-                        setCategories(responseBody.category);
+                        setBrands(responseBody.brand);
                     } else {
                         console.log("API returned unsuccessful response:", responseBody.messege);
                     }
@@ -73,15 +73,15 @@ const CreateCategory = (props) => {
     };
 
     useEffect(() => {
-        getAllCategory(); // eslint-disable-next-line 
+        getAllBrands(); // eslint-disable-next-line 
     }, []);
 
 
-    // update or edit category handle
+    // handle update brands
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${host}/api/category/update-category/${selected._id}`, {
+            const response = await fetch(`${host}/api/brand/update-brand/${selected._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,12 +96,12 @@ const CreateCategory = (props) => {
             console.log(data);
 
             if (response.ok && data.success) {
-                props.setAlert(`${updatedName} is updated`, "success");
                 setUpdatedName("");
-                getAllCategory();
-
+                props.setAlert(`${updatedName} Brand updated Successfully`, "success");
+                getAllBrands();
+                // props.setAlert(`${updatedName} is updated`);
                 // Trigger a click event on the button to close the modal
-                const editButton = document.querySelector('[data-bs-target="#categoryModal"]');
+                const editButton = document.querySelector('[data-bs-target="#brandModal"]');
                 if (editButton) {
                     editButton.click();
                 }
@@ -115,10 +115,10 @@ const CreateCategory = (props) => {
     };
 
 
-    // delete category handle
+    // handle delete brands
     const handleDelete = async (pId) => {
         try {
-            const response = await fetch(`${host}/api/category/delete-category/${pId}`, {
+            const response = await fetch(`${host}/api/brand/delete-brand/${pId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,8 +129,8 @@ const CreateCategory = (props) => {
             const data = await response.json();
 
             if (response.ok && data.success) {
-                props.setAlert(`${name} Category deleted Successfully`, "success");
-                getAllCategory();
+                props.setAlert(`${name} Brand deleted Successfully`, "success");
+                getAllBrands();
             } else {
                 console.log("API returned unsuccessful response:", data);
             }
@@ -138,6 +138,8 @@ const CreateCategory = (props) => {
             props.setAlert("Something went wrong", "danger");
         }
     };
+
+
 
     return (
         <div className="container my-5">
@@ -148,28 +150,28 @@ const CreateCategory = (props) => {
                 <div className="col-md-9 ps-5">
                     <div className="row">
                         <div className="col">
-                            <h3>Create Category</h3>
+                            <h3>Create Brand</h3>
                             <div className="div-form col-md-6 py-3">
-                                <CategoryForm handleSubmit={handleSubmit}
+                                <BrandsForm handleSubmit={handleSubmit}
                                     value={name}
-                                    setValue={setName} buttonTitle="Create" />
+                                    setValue={setName} buttonTitle="Create Brand" />
                             </div>
                             <div className="existing-category py-4 col-md-8">
-                                <h3>All Categories</h3>
+                                <h3>All Brands</h3>
                                 <div className="category-table">
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Category Name</th>
+                                                <th scope="col">Brands Name</th>
                                                 <th scope="col" className='text-end pe-5'>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {categories?.map((c) => (
+                                            {brands?.map((c) => (
                                                 <tr key={c._id}>
                                                     <td>{c.name}</td>
                                                     <td>
-                                                        <button className="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#categoryModal" onClick={() => { setUpdatedName(c.name); setSelected(c); }}>
+                                                        <button className="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#brandModal" onClick={() => { setUpdatedName(c.name); setSelected(c); }}>
                                                             Edit
                                                         </button>
                                                         <button className="btn btn-danger ms-2" onClick={() => {
@@ -184,15 +186,15 @@ const CreateCategory = (props) => {
                                     </table>
                                 </div>
                             </div>
-                            <div className="modal fade" id="categoryModal" tabIndex={-1} aria-labelledby="categoryModalLabel" aria-hidden="true">
+                            <div className="modal fade" id="brandModal" tabIndex={-1} aria-labelledby="brandModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h5 className="modal-title" id="categoryModalLabel">Update Cayegory</h5>
+                                            <h5 className="modal-title" id="brandModalLabel">Update Brand</h5>
                                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                                         </div>
                                         <div className="modal-body">
-                                            <CategoryForm value={updatedName}
+                                            <BrandsForm value={updatedName}
                                                 setValue={setUpdatedName}
                                                 handleSubmit={handleUpdate} buttonTitle="Update" />
                                         </div>
@@ -207,4 +209,4 @@ const CreateCategory = (props) => {
     )
 }
 
-export default CreateCategory
+export default CreateBrandsPage

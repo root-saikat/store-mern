@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.table tbody tr td:last-child {
+  text-align: end;
+}
+
+.list-group-item.active {
+  background-color: #ba9d4d;
+  /* color: #your-custom-text-color; */
+  border-color: #ba9d4d;
+}

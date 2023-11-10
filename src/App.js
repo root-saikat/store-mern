@@ -25,6 +25,7 @@ import Users from './components/dashboard pages/admin/Users';
 import UserProfile from './components/dashboard pages/user/UserProfile';
 import Orders from './components/dashboard pages/user/Orders';
 import { AuthProvider } from './context/auth';
+import CreateBrandsPage from './components/dashboard pages/admin/CreateBrandsPage';
 
 function App() {
 
@@ -56,8 +57,9 @@ function App() {
           </Route>
           <Route exact path='/dashboard' element={<AdminRoute />} >
             <Route exact path="admin" element={<AdminDashboard />} />
-            <Route exact path="admin/create-category" element={<CreateCategory />} />
+            <Route exact path="admin/create-category" element={<CreateCategory setAlert={showAlert}/>} />
             <Route exact path="admin/create-product" element={<CreateProduct />} />
+            <Route exact path="admin/create-brand" element={<CreateBrandsPage setAlert={showAlert}/>} />
             <Route exact path="admin/users" element={<Users />} />
           </Route>
           <Route exact path="/service" element={<Service />} />

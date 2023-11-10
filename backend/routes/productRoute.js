@@ -11,7 +11,7 @@ const router = express.Router();
 // create product routes / login? / admin?
 router.post('/create-product', fetchuser, isAdmin, formidable(), async (req, res) => {
     try {
-        const { name, description, price, category, quantity, shipping } =
+        const { name, description, price, category, brand, quantity, shipping } =
             req.fields;
         const { photo } = req.files;
         //validation
@@ -24,6 +24,8 @@ router.post('/create-product', fetchuser, isAdmin, formidable(), async (req, res
                 return res.status(500).send({ error: "Price is Required" });
             case !category:
                 return res.status(500).send({ error: "Category is Required" });
+            case !brand:
+                return res.status(500).send({ error: "Brand is Required" });
             case !quantity:
                 return res.status(500).send({ error: "Quantity is Required" });
             case photo && photo.size > 1000000:
@@ -60,7 +62,7 @@ router.get('/get-product', async (req, res) => {
     try {
         const products = await productModal
             .find({})
-            .populate("category")
+            .populate(['brand', 'category'])
             .select("-photo")
             .limit(12)
             .sort({ createdAt: -1 });
@@ -87,7 +89,7 @@ router.get('/get-product/:slug', async (req, res) => {
         const product = await productModal
             .findOne({ slug: req.params.slug })
             .select("-photo")
-            .populate("category");
+            .populate(['brand', 'category']);
         res.status(200).send({
             success: true,
             message: "Single Product Fetched",
@@ -145,7 +147,7 @@ router.delete('/product/:pid', async (req, res) => {
 // update products 
 router.put('/update-product/:pid',fetchuser, isAdmin, formidable(), async (req, res) => {
     try {
-        const { name, description, price, category, quantity, shipping } =
+        const { name, description, price, category, brand, quantity, shipping } =
             req.fields;
         const { photo } = req.files;
         //alidation
@@ -158,6 +160,8 @@ router.put('/update-product/:pid',fetchuser, isAdmin, formidable(), async (req, 
                 return res.status(500).send({ error: "Price is Required" });
             case !category:
                 return res.status(500).send({ error: "Category is Required" });
+            case !brand:
+                return res.status(500).send({ error: "Brand is Required" });
             case !quantity:
                 return res.status(500).send({ error: "Quantity is Required" });
             case photo && photo.size > 1000000:
