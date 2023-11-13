@@ -164,6 +164,26 @@ router.post("/forget-password", async (req, res) => {
 // })
 
 
+//get all users
+router.get('/get-users', async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.status(200).send({
+            success: true,
+            message: "All Users List",
+            users,  // <-- Corrected from 'User' to 'users'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            error,
+            message: "Error while getting all users",
+        });
+    }
+});
+
+
 // Admin routes
 router.get("/admin", fetchuser, isAdmin, (req, res) => {
     try {

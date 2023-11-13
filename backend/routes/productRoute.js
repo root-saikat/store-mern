@@ -11,7 +11,7 @@ const router = express.Router();
 // create product routes / login? / admin?
 router.post('/create-product', fetchuser, isAdmin, formidable(), async (req, res) => {
     try {
-        const { name, description, price, category, brand, quantity, shipping } =
+        const { name, description, price, category, brand, quantity } =
             req.fields;
         const { photo } = req.files;
         //validation
@@ -125,7 +125,7 @@ router.get('/product-photo/:pid', async (req, res) => {
 });
 
 // delete products 
-router.delete('/product/:pid', async (req, res) => {
+router.delete('/delete-product/:pid', async (req, res) => {
     try {
         await productModal.findByIdAndDelete(req.params.pid).select("-photo");
         res.status(200).send({

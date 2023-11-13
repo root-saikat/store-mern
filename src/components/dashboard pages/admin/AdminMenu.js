@@ -16,6 +16,8 @@ const AdminMenu = () => {
             }`}>Create Brand</Link>
           <Link to="/dashboard/admin/create-product" className={`list-group-item list-group-item-action ${location.pathname === '/dashboard/admin/create-product' ? 'active' : ''
             }`}>Create Product</Link>
+          <Link to="/dashboard/admin/all-products" className={`list-group-item list-group-item-action ${location.pathname === '/dashboard/admin/all-products' ? 'active' : ''
+            }`}>View All Products</Link>
           <Link to="/dashboard/admin/users" className={`list-group-item list-group-item-action ${location.pathname === '/dashboard/admin/users' ? 'active' : ''
             }`}>Users</Link>
         </div>

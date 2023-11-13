@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AdminMenu from './AdminMenu'
+import { useParams, useNavigate } from "react-router-dom";
 
-
-const CreateProduct = (props) => {
+const UpdateProduct = (props) => {
     const host = "http://localhost:5000";
     const token = localStorage.getItem("token");
+
+    const params = useParams();
+    const navigate = useNavigate();
 
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -15,6 +18,32 @@ const CreateProduct = (props) => {
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [quantity, setQuantity] = useState("");
+    const [id, setId] = useState("");
+
+    // fetch single product to update 
+    const getSingleProduct = async () => {
+        try {
+            const response = await fetch(`${host}/api/product/get-product/${params.slug}`);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+
+            setName(data.product.name);
+            setId(data.product._id);
+            setDescription(data.product.description);
+            setPrice(data.product.price);
+            setQuantity(data.product.quantity);
+            setCategory(data.product.category._id);
+            setBrand(data.product.brand._id);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
 
     //fetch all category
     const getAllCategory = async () => {
@@ -80,12 +109,13 @@ const CreateProduct = (props) => {
 
     useEffect(() => {
         getAllBrands();
-        getAllCategory(); // eslint-disable-next-line react-hooks/exhaustive-deps
+        getAllCategory();
+        getSingleProduct(); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
-    //create product function
-    const handleCreate = async (e) => {
+    //update product function
+    const handleUpdate = async (e) => {
         e.preventDefault();
         try {
             const productData = new FormData();
@@ -95,11 +125,11 @@ const CreateProduct = (props) => {
             productData.append("brand", brand);
             productData.append("price", price);
             productData.append("quantity", quantity);
-            productData.append("photo", photo);
+            photo && productData.append("photo", photo);
             productData.append("category", category);
 
-            const response = await fetch(`${host}/api/product/create-product`, {
-                method: 'POST',
+            const response = await fetch(`${host}/api/product/update-product/${id}`, {
+                method: 'PUT',
                 headers: {
                     'auth-token': token,
                 },
@@ -107,7 +137,6 @@ const CreateProduct = (props) => {
             });
 
             const data = await response.json();
-            console.log(data);
 
             if (!response.ok) {
                 // Handle non-successful responses
@@ -118,8 +147,8 @@ const CreateProduct = (props) => {
             // const data = await response.json();
 
             if (data.success) {
-                props.setAlert(`${name} product created successfully`, "success");
-                // resetFormFields();
+                props.setAlert(`${name} product Updated successfully`, "success");
+                navigate("/dashboard/admin/all-products");
                 // Additional actions upon success (e.g., navigate)
             } else {
                 props.setAlert("Error creating product", "danger");
@@ -130,7 +159,37 @@ const CreateProduct = (props) => {
         }
     };
 
-    
+
+    // delete product function
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        try {
+            const answer = window.confirm("Are you sure you want to delete this product?");
+            if (!answer) return;
+
+            const response = await fetch(`${host}/api/product/delete-product/${id}`, {
+                method: 'delete',
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+            if (data.success) {
+                props.setAlert("Product deleted successfully", "success");
+                navigate("/dashboard/admin/all-products");
+            } else {
+                props.setAlert("Product deletion failed", "danger");
+            }
+        } catch (error) {
+            console.log(error);
+            props.setAlert("Something went wrong", "danger");
+        }
+    };
+
     return (
         <div className="container my-5">
             <div className="row">
@@ -140,21 +199,21 @@ const CreateProduct = (props) => {
                 <div className="col-md-9 ps-5">
                     <div className="row">
                         <div className="col">
-                            <h3>Create New Product</h3>
+                            <h3>Update Product</h3>
                             <div className="product-form">
                                 <form>
                                     <div className="row">
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productname" className="form-label">Name</label>
-                                            <input type="text" className="form-control" id="productname" aria-describedby="emailHelp" onChange={(e) => setName(e.target.value)} />
+                                            <input type="text" className="form-control" id="productname" value={name} aria-describedby="emailHelp" onChange={(e) => setName(e.target.value)} />
                                         </div>
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productDescription" className="form-label">Description</label>
-                                            <input type="text" className="form-control" id="productDescription" aria-describedby="emailHelp" onChange={(e) => setDescription(e.target.value)} />
+                                            <input type="text" className="form-control" id="productDescription" value={description} aria-describedby="emailHelp" onChange={(e) => setDescription(e.target.value)} />
                                         </div>
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productPrice" className="form-label">Price</label>
-                                            <input type="number" className="form-control" id="productPrice" aria-describedby="emailHelp" onChange={(e) => setPrice(e.target.value)} />
+                                            <input type="number" className="form-control" id="productPrice" value={price} aria-describedby="emailHelp" onChange={(e) => setPrice(e.target.value)} />
                                         </div>
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productPrice" className="form-label">Category</label>
@@ -167,7 +226,7 @@ const CreateProduct = (props) => {
                                         </div>
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productQuantity" className="form-label">Quantity</label>
-                                            <input type="number" className="form-control" id="productQuantity" aria-describedby="emailHelp" onChange={(e) => setQuantity(e.target.value)} />
+                                            <input type="number" className="form-control" id="productQuantity" value={quantity} aria-describedby="emailHelp" onChange={(e) => setQuantity(e.target.value)} />
                                         </div>
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productPrice" className="form-label">Brand</label>
@@ -185,10 +244,19 @@ const CreateProduct = (props) => {
                                             <input type="file" name="ProductPhoto" id="ProductPhoto" accept="image/*" onChange={(e) => setPhoto(e.target.files[0])} />
                                         </div>
                                         <div className="col-md-5 my-2 my-3">
-                                            {photo && (
+                                            {photo ? (
                                                 <div className="photo-preivew">
                                                     <img
                                                         src={URL.createObjectURL(photo)}
+                                                        alt="product_photo"
+                                                        height={"80px"}
+                                                        className="img img-responsive"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="photo-preivew">
+                                                    <img
+                                                        src={`${host}/api/product/product-photo/${id}`}
                                                         alt="product_photo"
                                                         height={"80px"}
                                                         className="img img-responsive"
@@ -198,7 +266,15 @@ const CreateProduct = (props) => {
                                         </div>
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary mt-1" onClick={handleCreate}>Create Product</button>
+                                    <div className="row mt-2">
+                                        <div className="col
+                                        ">
+                                            <div className="buttons d-flex">
+                                                <button className="btn btn-primary me-4" onClick={handleUpdate}>Update Product</button>
+                                                <button className="btn btn-danger me-4" onClick={handleDelete}>Delete Product</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -209,4 +285,4 @@ const CreateProduct = (props) => {
     )
 }
 
-export default CreateProduct
+export default UpdateProduct
