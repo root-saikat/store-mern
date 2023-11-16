@@ -145,7 +145,7 @@ router.delete('/delete-product/:pid', async (req, res) => {
 
 
 // update products 
-router.put('/update-product/:pid',fetchuser, isAdmin, formidable(), async (req, res) => {
+router.put('/update-product/:pid', fetchuser, isAdmin, formidable(), async (req, res) => {
     try {
         const { name, description, price, category, brand, quantity, shipping } =
             req.fields;
@@ -191,6 +191,30 @@ router.put('/update-product/:pid',fetchuser, isAdmin, formidable(), async (req, 
             success: false,
             error,
             message: "Error in Updte product",
+        });
+    }
+});
+
+
+
+// filter products
+router.post('/product-filter', async (req, res) => {
+    try {
+        const { checked, radio } = req.body;
+        let args = {};
+        if (checked.length > 0) args.category = checked;
+        if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+        const products = await productModal.find(args);
+        res.status(200).send({
+            success: true,
+            products,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: "Error WHile Filtering Products",
+            error,
         });
     }
 });

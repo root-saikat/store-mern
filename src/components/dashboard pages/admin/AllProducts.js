@@ -63,7 +63,8 @@ const AllProducts = () => {
                                                 <img src={`${host}/api/product/product-photo/${product._id}`} className="card-img-top" alt={product.name} />
                                                 <div className="card-body">
                                                     <h5 className="card-title">{product.name}</h5>
-                                                    <p className="card-text">{product.description}</p>
+                                                    <p className="card-text">{product.description.substring(0, 30)}...</p>
+                                                    <span>${product.price}</span>
                                                 </div>
                                             </div>
                                         </Link>
