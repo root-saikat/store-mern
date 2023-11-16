@@ -21,3 +21,19 @@ code {
   /* color: #your-custom-text-color; */
   border-color: #ba9d4d;
 }
+
+
+.brandimg {
+  position: relative;
+}
+
+.brandimg .brandname {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 7px;
+  color: white;
+  background-color: #000000a3;
+}
+
+

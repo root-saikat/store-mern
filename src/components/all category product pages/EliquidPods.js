@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Prices } from "./routes/Prices";
+import { Prices } from "../routes/Prices";
 
-const ProductPage = () => {
+const EliquidPods = () => {
 
     const host = "http://localhost:5000";
     const token = localStorage.getItem("token");
@@ -11,64 +11,6 @@ const ProductPage = () => {
     const [brands, setBrands] = useState([]);
     const [checked, setChecked] = useState([]);
     const [radio, setRadio] = useState([]);
-
-    // Fetch all products
-    const getAllProduct = async () => {
-        try {
-            const response = await fetch(`${host}/api/product/get-product`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token,
-                },
-            });
-
-            if (response.ok) {
-                const { success, message, products } = await response.json();
-
-                if (success) {
-                    setProducts(products);
-                } else {
-                    console.log("API returned unsuccessful response:", message);
-                }
-            } else {
-                console.error("HTTP error! Status:", response.status);
-            }
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
-    };
-
-    // Fetch all categories
-    const getAllCategory = async () => {
-        try {
-            const response = await fetch(`${host}/api/category/get-category`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token,
-                },
-            });
-
-            if (response.ok) {
-                try {
-                    const responseBody = await response.json();
-
-                    if (responseBody.success) {
-                        setCategories(responseBody.category);
-                    } else {
-                        console.log("API returned unsuccessful response:", responseBody.message);
-                    }
-                } catch (error) {
-                    console.error("Error parsing JSON:", error);
-                }
-            } else {
-                console.error("HTTP error! Status:", response.status);
-            }
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        }
-    };
 
     //fetch all Brands
     const getAllBrands = async () => {
@@ -101,16 +43,39 @@ const ProductPage = () => {
         }
     };
 
+    // get same category products
+    const getAllProductByCategory = async (categoryId) => {
+        try {
+            const response = await fetch(`${host}/api/product/get-cat-product/6555fa5ee31602786909ec79`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': token,
+                },
+            });
+    
+            if (response.ok) {
+                const { success, message, products } = await response.json();
+    
+                if (success) {
+                    setProducts(products);
+                } else {
+                    console.log("API returned unsuccessful response:", message);
+                }
+            } else {
+                console.error("HTTP error! Status:", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+    
+
     useEffect(() => {
-        getAllCategory();
         getAllBrands();
-        getAllProduct();
-    }, [token]); // Make sure to include token as a dependency if it's used in useEffect
-
-    const handleFilter = ()=>{
-
-    }
-
+        getAllProductByCategory();
+    }, [token]); 
+   
     return (
         <>
             <div className="breadcrumb-links mt-5">
@@ -118,7 +83,8 @@ const ProductPage = () => {
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item"><Link style={{ color: 'black', textDecoration: 'none' }} to="/">Home</Link></li>
-                            <li className="breadcrumb-item active" aria-current="page">Products</li>
+                            <li className="breadcrumb-item"><Link style={{ color: 'black', textDecoration: 'none' }} to="/products">Products</Link></li>
+                            <li className="breadcrumb-item active" aria-current="page">E Liquid Pods</li>
                         </ol>
                     </nav>
                 </div>
@@ -126,7 +92,7 @@ const ProductPage = () => {
             {/* Banner */}
             <div className="p-bnr">
                 <div className="pr-banner">
-                    <img src="./assets/products/products.jpg" alt="" width="100%" />
+                    <img src="/assets/products/E-Liquid-Pods.jpg" alt="" width="100%" />
                 </div>
             </div>
             {/* products section start */}
@@ -136,36 +102,12 @@ const ProductPage = () => {
                         <div className="col-lg-3 col-12">
                             <div className="accordion accordion-flush" id="accordionFlushExample">
                                 <div className="accordion-item">
-                                    <h2 className="accordion-header" id="flush-headingOne">
-                                        <h3 className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                            CATEGORY
-                                        </h3>
-                                    </h2>
-                                    <div id="flush-collapseOne" className="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                        <div className="accordion-body">
-                                            {categories?.map((c) => (
-                                                <div key={c._id} className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        id={`flexCheckDefault${c._id}`}
-                                                        onChange={(e) => handleFilter(e.target.checked, c._id)}
-                                                    />
-                                                    <label className="form-check-label" htmlFor={`flexCheckDefault${c._id}`} >
-                                                        {c.name}
-                                                    </label>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="accordion-item">
                                     <h2 className="accordion-header" id="flush-headingTwo">
                                         <h3 className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                                             PRICE
                                         </h3>
                                     </h2>
-                                    <div id="flush-collapseTwo" className="accordion-collapse collapse show" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                    <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                         <div className="accordion-body">
                                             <div className="input-group d-flex flex-column">
                                                 {Prices?.map((p) => (
@@ -193,10 +135,10 @@ const ProductPage = () => {
                                             BRAND
                                         </h3>
                                     </h2>
-                                    <div id="flush-collapseThree" className="accordion-collapse collapse show" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                    <div id="flush-collapseThree" className="accordion-collapse collapse " aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                         <div className="accordion-body">
                                             {brands?.map((c) => (
-                                                <div key={c._id} className="form-check" onChange={(e) => handleFilter(e.target.checked, c._id)}>
+                                                <div key={c._id} className="form-check" onChange={(e) => (e.target.checked, c._id)}>
                                                     <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
                                                     <label className="form-check-label" htmlFor={`flexCheckDefault${c._id}`}>
                                                         {c.name}
@@ -210,8 +152,6 @@ const ProductPage = () => {
                         </div>
                         <div className="col-lg-9 col-12 pt-4">
                             <div className="container-fluid">
-                                {/* {JSON.stringify(checked, null, 4)} */}
-                                {/* {JSON.stringify(radio, null, 4)} */}
                                 <div className="row row-cols-4 gap-4">
                                     {products?.map((product) => (
                                         <div className="col-3" key={product._id}>
@@ -239,4 +179,4 @@ const ProductPage = () => {
     )
 }
 
-export default ProductPage;
+export default EliquidPods;

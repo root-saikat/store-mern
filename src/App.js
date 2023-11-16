@@ -28,6 +28,10 @@ import { AuthProvider } from './context/auth';
 import CreateBrandsPage from './components/dashboard pages/admin/CreateBrandsPage';
 import AllProducts from './components/dashboard pages/admin/AllProducts';
 import UpdateProduct from './components/dashboard pages/admin/UpdateProduct';
+import Disposables from './components/all category product pages/Disposables';
+import BoxMods from './components/all category product pages/BoxMods';
+import EliquidPods from './components/all category product pages/EliquidPods';
+import ELiquid from './components/all category product pages/ELiquid';
 
 function App() {
 
@@ -69,6 +73,10 @@ function App() {
           <Route exact path="/service" element={<Service />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/products" element={<ProductPage />} />
+          <Route exact path="/disposable" element={<Disposables/>}/>
+          <Route exact path="/box-mods" element={<BoxMods/>}/>
+          <Route exact path="/e-liquid-pods" element={<EliquidPods/>}/>
+          <Route exact path="/e-liquid" element={<ELiquid/>}/>
           <Route exact path="/brands" element={<BrandsPage />} />
           <Route exact path="/singleproduct" element={<SingleProduct />} />
           <Route exact path="/login" element={<Loginmodal setAlert={showAlert} />} />

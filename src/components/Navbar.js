@@ -12,6 +12,11 @@ const Navbar = () => {
     const [userName, setUserName] = useState('');
     const [role, setRole] = useState('');
 
+    const host = "http://localhost:5000";
+    const token = localStorage.getItem("token");
+    // const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate("/");
@@ -116,6 +121,72 @@ const Navbar = () => {
 
     }, [authtoken]); // Empty dependency array ensures this code runs after component mount
 
+    // Fetch all categories
+    // const getAllCategory = async () => {
+    //     try {
+    //         const response = await fetch(`${host}/api/category/get-category`, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'auth-token': token,
+    //             },
+    //         });
+
+    //         if (response.ok) {
+    //             try {
+    //                 const responseBody = await response.json();
+
+    //                 if (responseBody.success) {
+    //                     setCategories(responseBody.category);
+    //                 } else {
+    //                     console.log("API returned unsuccessful response:", responseBody.message);
+    //                 }
+    //             } catch (error) {
+    //                 console.error("Error parsing JSON:", error);
+    //             }
+    //         } else {
+    //             console.error("HTTP error! Status:", response.status);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching categories:", error);
+    //     }
+    // };
+
+    //fetch all Brands
+    const getAllBrands = async () => {
+        try {
+            const response = await fetch(`${host}/api/brand/get-brand`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "auth-token": { token }
+                }
+            });
+
+            if (response.ok) {
+                try {
+                    const responseBody = await response.json();
+
+                    if (responseBody.success) {
+                        setBrands(responseBody.brand);
+                    } else {
+                        console.log("API returned unsuccessful response:", responseBody.messege);
+                    }
+                } catch (error) {
+                    console.error("Error parsing JSON:", error);
+                }
+            } else {
+                console.error("HTTP error! Status:", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+        }
+    };
+
+    useEffect(() => {
+        // getAllCategory();
+        getAllBrands();
+    }, [token]);
 
 
     return (
@@ -160,14 +231,14 @@ const Navbar = () => {
                                                 </div> : <>
                                                     <li className="nav-item dropdown d-flex">
                                                         <Link className="dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <span className="p-1 login-btn">{userName}</span>
+                                                            <span className="p-1 login-btn">{userName}</span>
                                                         </Link>
                                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                                             <li><Link className="dropdown-item text-dark text-center" to={`/dashboard/${role === 1 ? 'admin' : 'user'}`}>DashBoard</Link></li>
                                                             <li className='d-flex align-items-center justify-content-center mt-2'><button onClick={handleLogout} className="btn btn-warning btn-sm mx-1" >Logout</button></li>
                                                         </ul>
                                                     </li>
-                                                    
+
                                                 </>}
                                             </div>
                                             <div className="col d-flex align-items-center cart-sect">
@@ -231,43 +302,34 @@ const Navbar = () => {
                                             </Link>
                                             <div className="hover-products p-3">
                                                 <div className="row pl-2">
-                                                    <div className="col-6">
-                                                        <Link to="/"><h3>Disposable Vapes</h3></Link>
-                                                        <ul>
-                                                            <Link to="/"><h3>E-Chigarette Kits</h3></Link>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                        </ul>
-                                                        <ul>
-                                                            <Link to="/"><h3>E-Chigarette Kits</h3></Link>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                        </ul>
-                                                        <ul>
-                                                            <Link to="/"><h3>E-Chigarette Kits</h3></Link>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                        </ul>
-                                                        <Link to="/"><h3>Heat Not Burn</h3></Link>
-                                                    </div>
-                                                    <div className="col-6">
-                                                        <Link to="/"><h3>Newest Arival</h3></Link>
-                                                        <ul>
-                                                            <Link to="/"><h3>E-Chigarette Kits</h3></Link>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                        </ul>
-                                                        <ul>
-                                                            <Link to="/"><h3>E-Chigarette Kits</h3></Link>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                        </ul>
-                                                        <ul>
-                                                            <Link to="/"><h3>E-Chigarette Kits</h3></Link>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                            <li><Link to="/">vape pans</Link></li>
-                                                        </ul>
-                                                        <Link to="/"><h3>Heat Not Burn</h3></Link>
+                                                    <div className="col category-hover">
+                                                        {/* {categories?.map((c) => (
+                                                            <li key={c._id}>
+                                                                <Link to={`/category/${c._id}`}>
+                                                                    {c.name}
+                                                                </Link>
+                                                            </li>
+                                                        ))} */}
+                                                        <li>
+                                                            <Link to="/disposable">
+                                                                Disposeable Vapes
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/box-mods">
+                                                                Box Mods
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/e-liquid-pods">
+                                                                E Liquid Pods
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/e-liquid">
+                                                                E Liquids
+                                                            </Link>
+                                                        </li>
                                                     </div>
                                                 </div>
                                             </div>
@@ -278,27 +340,14 @@ const Navbar = () => {
                                             </Link>
                                             <div className="hover-brands p-2">
                                                 <div className="row">
-                                                    <div className="col-6 text-center">
-                                                        <ul>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="col-6 text-center">
-                                                        <ul>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                            <li><Link to="">vape pans</Link></li>
-                                                        </ul>
+                                                    <div className="col brand-hover">
+                                                        {brands?.map((c) => (
+                                                            <li key={c._id}>
+                                                                <Link to="/brands">
+                                                                    {c.name}
+                                                                </Link>
+                                                            </li>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </div>

@@ -196,6 +196,34 @@ router.put('/update-product/:pid', fetchuser, isAdmin, formidable(), async (req,
 });
 
 
+// product by category 
+router.get('/get-cat-product/:pid', async (req, res) => {
+    try {
+        const categoryId = req.params.pid;
+
+        const products = await productModal
+            .find({ category: categoryId })
+            .populate(['brand', 'category'])
+            .select("-photo")
+            .limit(12)
+            .sort({ createdAt: -1 });
+
+        res.status(200).send({
+            success: true,
+            countTotal: products.length,
+            message: "Products by Category",
+            products,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error in getting products",
+            error: error.message,
+        });
+    }
+});
+
 
 // filter products
 router.post('/product-filter', async (req, res) => {
