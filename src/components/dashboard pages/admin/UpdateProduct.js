@@ -14,7 +14,9 @@ const UpdateProduct = (props) => {
     const [photo, setPhoto] = useState("");
     const [brand, setBrand] = useState("");
     const [name, setName] = useState("");
+    const [code, setCode] = useState("");
     const [description, setDescription] = useState("");
+    const [bigdescription, setBigdescription] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [quantity, setQuantity] = useState("");
@@ -120,7 +122,9 @@ const UpdateProduct = (props) => {
         try {
             const productData = new FormData();
             productData.append("name", name);
+            productData.append("code", code);
             productData.append("description", description);
+            productData.append("bigdescription", bigdescription);
             productData.append("category", category);
             productData.append("brand", brand);
             productData.append("price", price);
@@ -210,6 +214,14 @@ const UpdateProduct = (props) => {
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productDescription" className="form-label">Description</label>
                                             <input type="text" className="form-control" id="productDescription" value={description} aria-describedby="emailHelp" onChange={(e) => setDescription(e.target.value)} />
+                                        </div>
+                                        <div className="col-md-5 my-2">
+                                            <label htmlFor="productcode" className="form-label">Code</label>
+                                            <input type="text" className="form-control" id="productcode" value={code} aria-describedby="emailHelp" onChange={(e) => setCode(e.target.value)} />
+                                        </div>
+                                        <div className="col-md-5 my-2">
+                                            <label htmlFor="productBdescription" className="form-label">Big description</label>
+                                            <input type="text" className="form-control" id="productBdescription" value={bigdescription} aria-describedby="emailHelp" onChange={(e) => setBigdescription(e.target.value)} />
                                         </div>
                                         <div className="col-md-5 my-2">
                                             <label htmlFor="productPrice" className="form-label">Price</label>

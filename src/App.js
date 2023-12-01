@@ -12,7 +12,6 @@ import Footer from './components/Footer';
 import ProductPage from './components/ProductPage';
 import BrandsPage from './components/BrandsPage';
 import ScrollToTop from './components/ScrollToTop ';
-import SingleProduct from './components/SingleProduct';
 import ForgetPassword from './components/ForgetPassword';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/routes/private';
@@ -32,6 +31,7 @@ import Disposables from './components/all category product pages/Disposables';
 import BoxMods from './components/all category product pages/BoxMods';
 import EliquidPods from './components/all category product pages/EliquidPods';
 import ELiquid from './components/all category product pages/ELiquid';
+import ProductDetails from './components/ProductDetails';
 
 function App() {
 
@@ -78,7 +78,7 @@ function App() {
           <Route exact path="/e-liquid-pods" element={<EliquidPods/>}/>
           <Route exact path="/e-liquid" element={<ELiquid/>}/>
           <Route exact path="/brands" element={<BrandsPage />} />
-          <Route exact path="/singleproduct" element={<SingleProduct />} />
+          <Route exact path="/:pid" element={<ProductDetails/>} />
           <Route exact path="/login" element={<Loginmodal setAlert={showAlert} />} />
           <Route exact path="/reset-password" element={<ForgetPassword setAlert={showAlert} />} />
         </Routes>

@@ -130,7 +130,7 @@ const BrandsPage = () => {
                                                         <h5 className="card-title">${product.price}</h5>
                                                     </div>
                                                     <div className="view-buy-hover gap-2">
-                                                        <Link to={`/singleproduct/${product._id}`}><button>VIEW</button></Link>
+                                                        <Link to={`/${product._id}`}><button>VIEW</button></Link>
                                                         <button>BUY</button>
                                                     </div>
                                                 </div>

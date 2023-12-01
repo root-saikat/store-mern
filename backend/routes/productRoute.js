@@ -11,7 +11,7 @@ const router = express.Router();
 // create product routes / login? / admin?
 router.post('/create-product', fetchuser, isAdmin, formidable(), async (req, res) => {
     try {
-        const { name, description, price, category, brand, quantity } =
+        const { name, description, code, bigdescription, price, category, brand, quantity } =
             req.fields;
         const { photo } = req.files;
         //validation
@@ -20,6 +20,10 @@ router.post('/create-product', fetchuser, isAdmin, formidable(), async (req, res
                 return res.status(500).send({ error: "Name is Required" });
             case !description:
                 return res.status(500).send({ error: "Description is Required" });
+            case !bigdescription:
+                return res.status(500).send({ error: "bigdescription is Required" });
+            case !code:
+                return res.status(500).send({ error: "code is Required" });
             case !price:
                 return res.status(500).send({ error: "Price is Required" });
             case !category:
@@ -147,7 +151,7 @@ router.delete('/delete-product/:pid', async (req, res) => {
 // update products 
 router.put('/update-product/:pid', fetchuser, isAdmin, formidable(), async (req, res) => {
     try {
-        const { name, description, price, category, brand, quantity, shipping } =
+        const { name, description, code, bigdescription, price, category, brand, quantity, shipping } =
             req.fields;
         const { photo } = req.files;
         //alidation
@@ -156,6 +160,10 @@ router.put('/update-product/:pid', fetchuser, isAdmin, formidable(), async (req,
                 return res.status(500).send({ error: "Name is Required" });
             case !description:
                 return res.status(500).send({ error: "Description is Required" });
+            case !bigdescription:
+                return res.status(500).send({ error: "bigdescription is Required" });
+            case !code:
+                return res.status(500).send({ error: "code is Required" });
             case !price:
                 return res.status(500).send({ error: "Price is Required" });
             case !category:

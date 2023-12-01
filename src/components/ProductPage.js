@@ -108,7 +108,7 @@ const ProductPage = () => {
     }, [token]); // Make sure to include token as a dependency if it's used in useEffect
 
     const handleFilter = ()=>{
-
+        
     }
 
     return (
@@ -223,8 +223,8 @@ const ProductPage = () => {
                                                     <h5 className="card-title">${product.price}</h5>
                                                 </div>
                                                 <div className="view-buy-hover gap-2">
-                                                    <Link to={`/singleproduct/${product._id}`}><button>VIEW</button></Link>
-                                                    <button>BUY</button>
+                                                    <Link to={`/${product._id}`}><button>VIEW</button></Link>
+                                                    <button>Add to Cart</button>
                                                 </div>
                                             </div>
                                         </div>
